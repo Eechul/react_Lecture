@@ -31,6 +31,23 @@ export default class Contact extends React.Component {
 
 	}
 
+	// 컴포넌트가 DOM 위에 생기기 전에 발생하는 메소드
+	componentWillMount() {
+		const contactData = localStorage.contactData;
+		if(contactData) {
+			this.setState({
+				contactData: JSON.parse(contactData)
+			});
+		}
+	}
+
+	// 컴포넌트의 state가 업데이트 될때마다 발생되는 메소드
+	componentDidUpdate(prevProps, prevState) {
+		if(JSON.stringify(prevState.contactData) != JSON.stringify(this.state.contactData)) {
+			localStorage.contactData = JSON.stringify(this.state.contactData);
+		}
+	}
+
 	handleChange(e) { // e => 이벤트 객체
 		this.setState({
 			keyword: e.target.value
